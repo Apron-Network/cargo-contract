@@ -29,13 +29,12 @@ use self::{events::display_events, transcode::ContractMessageTranscoder};
 use crate::{crate_metadata::CrateMetadata, workspace::ManifestPath};
 use sp_core::sr25519;
 use subxt::PairSigner;
+use std::path::PathBuf;
 
 type Balance = u128;
 
-pub fn load_metadata() -> Result<ink_metadata::InkProject> {
+pub fn load_metadata(metadata_path: Option<PathBuf>) -> Result<ink_metadata::InkProject> {
     let manifest_path = ManifestPath::default();
-    // todo: add metadata path option
-    let metadata_path: Option<std::path::PathBuf> = None;
     let path = match metadata_path {
         Some(path) => path,
         None => {

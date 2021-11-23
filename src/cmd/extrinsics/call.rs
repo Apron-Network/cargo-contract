@@ -30,6 +30,7 @@ use sp_core::Bytes;
 use std::{convert::TryInto, fmt::Debug};
 use structopt::StructOpt;
 use subxt::{rpc::NumberOrHex, ClientBuilder, Config, ExtrinsicSuccess, Signer};
+use std::path::PathBuf;
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "call", about = "Call a contract")]
@@ -52,11 +53,14 @@ pub struct CallCommand {
     /// Perform the call via rpc, instead of as an extrinsic. Contract state will not be mutated.
     #[structopt(name = "rpc", long)]
     rpc: bool,
+    /// Perform the call via rpc, instead of as an extrinsic. Contract state will not be mutated.
+    #[structopt(name = "path", long)]
+    path: String,
 }
 
 impl CallCommand {
     pub fn run(&self) -> Result<String> {
-        let metadata = load_metadata()?;
+        let metadata = load_metadata(Some(PathBuf::from(&self.path)))?;
         let transcoder = ContractMessageTranscoder::new(&metadata);
         let call_data = transcoder.encode(&self.name, &self.args)?;
 

@@ -70,7 +70,7 @@ impl InstantiateWithCode {
     /// the `ContractsEvent::CodeStored` event.
     pub fn exec(&self) -> Result<(H256, <DefaultConfig as Config>::AccountId)> {
         let code = self.load_contract_code()?;
-        let metadata = load_metadata()?;
+        let metadata = load_metadata(None)?;
         let transcoder = ContractMessageTranscoder::new(&metadata);
         let data = transcoder.encode(&self.instantiate.constructor, &self.instantiate.params)?;
 

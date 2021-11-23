@@ -59,7 +59,7 @@ impl InstantiateCommand {
     /// Creates an extrinsic with the `Contracts::instantiate` Call, submits via RPC, then waits for
     /// the `ContractsEvent::Instantiated` event.
     pub fn run(&self) -> Result<<DefaultConfig as Config>::AccountId> {
-        let metadata = super::load_metadata()?;
+        let metadata = super::load_metadata(None)?;
         let transcoder = super::ContractMessageTranscoder::new(&metadata);
         let data = transcoder.encode(&self.instantiate.constructor, &self.instantiate.params)?;
 
