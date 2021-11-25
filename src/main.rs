@@ -22,6 +22,7 @@ mod tests;
 mod util;
 mod validate_wasm;
 mod workspace;
+mod lib;
 
 use self::workspace::ManifestPath;
 
