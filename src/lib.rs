@@ -1,5 +1,5 @@
-mod cmd;
-mod crate_metadata;
-mod util;
-mod validate_wasm;
-mod workspace;
+pub mod cmd;
+pub mod crate_metadata;
+pub mod util;
+pub mod validate_wasm;
+pub mod workspace;
