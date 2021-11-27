@@ -22,7 +22,6 @@ mod tests;
 mod util;
 mod validate_wasm;
 mod workspace;
-mod lib;
 
 use self::workspace::ManifestPath;
 
@@ -74,7 +73,7 @@ impl std::str::FromStr for HexData {
 
 /// Arguments required for creating and sending an extrinsic to a substrate node
 #[derive(Clone, Debug, StructOpt)]
-pub(crate) struct ExtrinsicOpts {
+pub struct ExtrinsicOpts {
     /// Websockets url of a substrate node
     #[structopt(
         name = "url",

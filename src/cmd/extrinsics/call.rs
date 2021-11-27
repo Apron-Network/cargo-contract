@@ -36,26 +36,26 @@ use std::path::PathBuf;
 #[structopt(name = "call", about = "Call a contract")]
 pub struct CallCommand {
     /// The name of the contract message to call.
-    name: String,
+    pub name: String,
     /// The arguments of the contract message to call.
-    args: Vec<String>,
+    pub args: Vec<String>,
     #[structopt(flatten)]
-    extrinsic_opts: ExtrinsicOpts,
+    pub extrinsic_opts: ExtrinsicOpts,
     /// Maximum amount of gas to be used for this command.
     #[structopt(name = "gas", long, default_value = "50000000000")]
-    gas_limit: u64,
+    pub gas_limit: u64,
     /// The value to be transferred as part of the call.
     #[structopt(name = "value", long, default_value = "0")]
-    value: u128,
+    pub value: u128,
     /// The address of the the contract to call.
     #[structopt(name = "contract", long, env = "CONTRACT")]
-    contract: <DefaultConfig as Config>::AccountId,
+    pub contract: <DefaultConfig as Config>::AccountId,
     /// Perform the call via rpc, instead of as an extrinsic. Contract state will not be mutated.
     #[structopt(name = "rpc", long)]
-    rpc: bool,
+    pub rpc: bool,
     /// Perform the call via rpc, instead of as an extrinsic. Contract state will not be mutated.
     #[structopt(name = "path", long)]
-    path: String,
+    pub path: String,
 }
 
 impl CallCommand {

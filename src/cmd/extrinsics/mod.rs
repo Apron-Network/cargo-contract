@@ -18,7 +18,7 @@ pub mod call;
 mod events;
 pub mod instantiate;
 pub mod instantiate_with_code;
-mod runtime_api;
+pub mod runtime_api;
 mod transcode;
 
 use anyhow::{anyhow, Context, Result};

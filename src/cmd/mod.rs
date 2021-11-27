@@ -25,6 +25,6 @@ pub(crate) use self::{
 };
 mod extrinsics;
 
-pub(crate) use self::extrinsics::{
+pub use self::extrinsics::{
     call::CallCommand, instantiate::InstantiateCommand, instantiate_with_code::InstantiateWithCode,
 };
