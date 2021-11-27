@@ -19,7 +19,7 @@ pub mod metadata;
 pub mod new;
 pub mod test;
 
-pub(crate) use self::{
+pub use self::{
     build::{BuildCommand, CheckCommand},
     test::TestCommand,
 };

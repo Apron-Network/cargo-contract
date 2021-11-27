@@ -23,7 +23,7 @@ use std::{
 use anyhow::Result;
 use heck::CamelCase as _;
 
-pub(crate) fn execute<P>(name: &str, dir: Option<P>) -> Result<Option<String>>
+pub fn execute<P>(name: &str, dir: Option<P>) -> Result<Option<String>>
 where
     P: AsRef<Path>,
 {

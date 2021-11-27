@@ -56,7 +56,7 @@ struct ExtendedMetadataResult {
 /// Generates a file with metadata describing the ABI of the smart-contract.
 ///
 /// It does so by generating and invoking a temporary workspace member.
-pub(crate) fn execute(
+pub fn execute(
     crate_metadata: &CrateMetadata,
     final_contract_wasm: &Path,
     network: Network,

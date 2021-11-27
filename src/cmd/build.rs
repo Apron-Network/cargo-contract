@@ -41,9 +41,9 @@ const MAX_MEMORY_PAGES: u32 = 16;
 
 /// Arguments to use when executing `build` or `check` commands.
 #[derive(Default)]
-pub(crate) struct ExecuteArgs {
+pub struct ExecuteArgs {
     /// The location of the Cargo manifest (`Cargo.toml`) file to use.
-    pub(crate) manifest_path: ManifestPath,
+    pub manifest_path: ManifestPath,
     verbosity: Verbosity,
     build_mode: BuildMode,
     network: Network,
@@ -634,7 +634,7 @@ pub fn assert_debug_mode_supported(ink_version: &Version) -> anyhow::Result<()> 
 /// Executes build of the smart-contract which produces a wasm binary that is ready for deploying.
 ///
 /// It does so by invoking `cargo build` and then post processing the final binary.
-pub(crate) fn execute(args: ExecuteArgs) -> Result<BuildResult> {
+pub fn execute(args: ExecuteArgs) -> Result<BuildResult> {
     let ExecuteArgs {
         manifest_path,
         verbosity,

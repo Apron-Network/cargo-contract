@@ -38,7 +38,7 @@ pub fn assert_channel() -> Result<()> {
 /// Run cargo with the supplied args
 ///
 /// If successful, returns the stdout bytes
-pub(crate) fn invoke_cargo<I, S, P>(
+pub fn invoke_cargo<I, S, P>(
     command: &str,
     args: I,
     working_dir: Option<P>,
@@ -85,7 +85,7 @@ where
 }
 
 /// Returns the base name of the path.
-pub(crate) fn base_name(path: &Path) -> &str {
+pub fn base_name(path: &Path) -> &str {
     path.file_name()
         .expect("file name must exist")
         .to_str()
