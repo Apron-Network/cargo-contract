@@ -27,6 +27,7 @@ use jsonrpsee_ws_client::WsClientBuilder;
 use pallet_contracts_primitives::ContractExecResult;
 use serde::Serialize;
 use sp_core::Bytes;
+use sp_std::str::FromStr;
 use std::{convert::TryInto, fmt::Debug};
 use structopt::StructOpt;
 use subxt::{rpc::NumberOrHex, ClientBuilder, Config, ExtrinsicSuccess, Signer};
@@ -49,7 +50,7 @@ pub struct CallCommand {
     pub value: u128,
     /// The address of the the contract to call.
     #[structopt(name = "contract", long, env = "CONTRACT")]
-    pub contract: <DefaultConfig as Config>::AccountId,
+    pub contract: String,
     /// Perform the call via rpc, instead of as an extrinsic. Contract state will not be mutated.
     #[structopt(name = "rpc", long)]
     pub rpc: bool,
@@ -60,11 +61,13 @@ pub struct CallCommand {
 
 impl CallCommand {
     pub fn run(&self) -> Result<String> {
+        println!("load path: {}", self.path);
         let metadata = load_metadata(Some(PathBuf::from(&self.path)))?;
         let transcoder = ContractMessageTranscoder::new(&metadata);
         let call_data = transcoder.encode(&self.name, &self.args)?;
 
         if self.rpc {
+            println!("start rpc");
             let result = async_std::task::block_on(self.call_rpc(call_data))?;
             let exec_return_value = result
                 .result
@@ -102,9 +105,11 @@ impl CallCommand {
         let url = self.extrinsic_opts.url.to_string();
         let cli = WsClientBuilder::default().build(&url).await?;
         let signer = super::pair_signer(self.extrinsic_opts.signer()?);
+
+        let contract = <DefaultConfig as Config>::AccountId::from_str(self.contract.as_str()).unwrap();
         let call_request = RpcCallRequest {
             origin: signer.account_id().clone(),
-            dest: self.contract.clone(),
+            dest: contract,
             value: NumberOrHex::Number(self.value.try_into()?), // value must be <= u64.max_value() for now
             gas_limit: NumberOrHex::Number(self.gas_limit),
             input_data: Bytes(data),
@@ -121,12 +126,13 @@ impl CallCommand {
     ) -> Result<ExtrinsicSuccess<DefaultConfig>> {
         let signer = super::pair_signer(self.extrinsic_opts.signer()?);
 
-        log::debug!("calling contract {:?}", self.contract);
+        let contract = <DefaultConfig as Config>::AccountId::from_str(self.contract.as_str()).unwrap();
+        log::debug!("calling contract {:?}", contract);
         let result = api
             .tx()
             .contracts()
             .call(
-                self.contract.clone().into(),
+                contract.into(),
                 self.value,
                 self.gas_limit,
                 data,

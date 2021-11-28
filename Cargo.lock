@@ -569,6 +569,7 @@ dependencies = [
  "sp-core",
  "sp-keyring",
  "sp-runtime",
+ "sp-std 4.0.0-dev",
  "structopt",
  "substrate-build-script-utils",
  "subxt",

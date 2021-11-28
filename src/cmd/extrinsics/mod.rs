@@ -49,6 +49,8 @@ pub fn load_metadata(metadata_path: Option<PathBuf>) -> Result<ink_metadata::Ink
             "Failed to deserialize metadata file {}",
             path.display()
         ))?;
+
+    println!("load metadata: {:?}", metadata.contract);
     let ink_metadata =
         serde_json::from_value(serde_json::Value::Object(metadata.abi)).context(format!(
             "Failed to deserialize ink project metadata from file {}",
