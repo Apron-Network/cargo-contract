@@ -73,12 +73,8 @@ impl CallCommand {
                 .result
                 .map_err(|e| anyhow::anyhow!("Failed to execute call via rpc: {:?}", e))?;
             let value = transcoder.decode_return(&self.name, exec_return_value.data.0)?;
-            pretty_print(value, false)?;
-            Ok(format!(
-                "{:?} {}",
-                "Gas consumed:".bold(),
-                result.gas_consumed
-            ))
+            println!("Gas consumed: {}", result.gas_consumed);
+            Ok(value.to_string())
             // todo: [AJ] print debug message etc.
         } else {
             let (result, metadata) = async_std::task::block_on(async {
@@ -97,7 +93,7 @@ impl CallCommand {
                 &metadata,
                 self.extrinsic_opts.verbosity()?,
             )?;
-            Ok("".into())
+            Ok("success".into())
         }
     }
 
@@ -126,6 +122,7 @@ impl CallCommand {
     ) -> Result<ExtrinsicSuccess<DefaultConfig>> {
         let signer = super::pair_signer(self.extrinsic_opts.signer()?);
 
+        println!("parse signer: {}", signer.account_id());
         let contract = <DefaultConfig as Config>::AccountId::from_str(self.contract.as_str()).unwrap();
         log::debug!("calling contract {:?}", contract);
         let result = api

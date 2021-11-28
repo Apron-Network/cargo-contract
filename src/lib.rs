@@ -75,7 +75,9 @@ pub struct ExtrinsicOpts {
 
 impl ExtrinsicOpts {
     pub fn signer(&self) -> Result<sr25519::Pair> {
-        sr25519::Pair::from_string(&self.suri, self.password.as_ref().map(String::as_ref))
+        let password_override = self.password.as_ref().map(String::as_ref);
+        println!("signer, suri: {}, password: {:?}", self.suri, password_override);
+        sr25519::Pair::from_string(&self.suri, password_override)
             .map_err(|_| anyhow::anyhow!("Secret string error"))
     }
 
